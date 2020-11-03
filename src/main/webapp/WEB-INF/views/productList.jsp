@@ -26,8 +26,13 @@
             <c:forEach items="${products}" var="product">
             <tr>
                 <td><a href="<spring:url value="/productList/viewProduct/${product.productId}" /> ">
-                    <span class="glyphicon glyphicon-play-circle"></span></a></td>
-                <td><img src="#" alt="商品缩略图"/></td>
+                    <span class="glyphicon glyphicon-play-circle"></span>
+                    </a>
+                </td>
+
+                <td><img src="<c:url value="/resources/images/${product.productId}.png" />" alt="商品缩略图"
+                         style="width:100%" /></td>
+
                 <td>${product.productName}</td>
                 <td>${product.productCategory}</td>
                 <td>${product.productCondition}</td>
