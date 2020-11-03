@@ -11,10 +11,15 @@
             <p class="lead">在下方填入您需要新增的商品信息：</p>
         </div>
 
-        <form:form action="${pageContext.request.contextPath}/admin/productInventory/addProduct" method="post" commandName="product">
+        <form:form action="${pageContext.request.contextPath}/admin/productInventory/addProduct" method="post" commandName="product"  enctype="multipart/form-data">
         <div class="form-group">
             <label for="name">商品名称</label>
             <form:input path="productName" id="name" class="form-Control"/>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label" for="productImage">点击上传图片</label>
+            <form:input path="productImage" id="productImage" type="file" class="form:input-large"/>
         </div>
 
         <div class="form-group">
@@ -55,11 +60,6 @@
             <label for="manufacturer">商品生产厂家</label>
             <form:input path="productManufacturer" id="manufacturer" class="form-Control"/>
         </div>
-
-<%--        <div class="form-group">--%>
-<%--            <label class="control-label" for="productImage">点击上传图片</label>--%>
-<%--            <form:input path="productImage" id="productImage" type="file" class="form:input-large"/>--%>
-<%--        </div>--%>
 
         <input type="submit" value="提交" class="btn btn-primary">
         <a href="<c:url value="/admin/productInventory" />" class="btn btn-default">取消编辑</a>

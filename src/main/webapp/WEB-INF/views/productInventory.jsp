@@ -14,7 +14,7 @@
         <table class="table table-striped table-hover">
             <thead>
             <tr class="bg-success">
-                <th>点击查看详情与视频</th>
+                <th>查看详情与删除商品</th>
                 <th>商品缩略图</th>
                 <th>商品名称</th>
                 <th>商品类别</th>
@@ -25,8 +25,12 @@
 
             <c:forEach items="${products}" var="product">
                 <tr>
+
                     <td><a href="<spring:url value="/productList/viewProduct/${product.productId}" /> ">
-                        <span class="glyphicon glyphicon-play-circle"></span></a></td>
+                        <span class="glyphicon glyphicon-play-circle"></span></a>
+                        <a href="<spring:url value="/admin/productInventory/deleteProduct/${product.productId}" />">
+                        <span class="glyphicon glyphicon-remove"></span></a>
+                    </td>
                     <td><img src="#" alt="商品缩略图"/></td>
                     <td>${product.productName}</td>
                     <td>${product.productCategory}</td>
