@@ -43,7 +43,7 @@ public class HomeController {
     }
 
     @RequestMapping("/productList/viewProduct/{productId}")
-    public String viewProduct(@PathVariable String productId, Model model) throws IOException{
+    public String viewProduct(@PathVariable String productId, Model model) throws IOException {
 
         Product product = productDao.getProductById(productId);
         model.addAttribute(product);
@@ -83,7 +83,7 @@ public class HomeController {
 
         MultipartFile productImage = product.getProductImage();
         String rootDirectory = request.getSession().getServletContext().getRealPath("/");
-        path = Paths.get(rootDirectory + "//WEB-INF//resources//images//"+product.getProductId()+".png");
+        path = Paths.get(rootDirectory + "//WEB-INF//resources//images//" + product.getProductId() + ".png");
 
         if (productImage != null && !productImage.isEmpty()) {
             try {
@@ -102,16 +102,46 @@ public class HomeController {
     public String deleteProduct(@PathVariable String id, Model model, HttpServletRequest request) {
 
         String rootDirectory = request.getSession().getServletContext().getRealPath("/");
-        path = Paths.get(rootDirectory + "//WEB-INF//resources//images//"+ id+ ".png");
+        path = Paths.get(rootDirectory + "//WEB-INF//resources//images//" + id + ".png");
 
-        if (Files.exists(path)){
+        if (Files.exists(path)) {
             try {
                 Files.delete(path);
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         productDao.deleteProduct(id);
+
+        return "redirect:/admin/productInventory";
+    }
+
+    @RequestMapping("/admin/productInventory/editProduct/{id}")
+    public String editProduct(@PathVariable("id") String id, Model model) {
+        Product product = productDao.getProductById(id);
+
+        model.addAttribute(product);
+
+        return "editProduct";
+    }
+
+    @RequestMapping(value = "/admin/productInventory/editProduct", method = RequestMethod.POST)
+    public String editProduct(@ModelAttribute("product") Product product, Model model, HttpServletRequest
+            request) {
+
+        MultipartFile productImage = product.getProductImage();
+        String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+        path = Paths.get(rootDirectory + "//WEB-INF//resources//images//" + product.getProductId() + ".png");
+
+        if (productImage != null && !productImage.isEmpty()) {
+            try {
+                productImage.transferTo(new File(path.toString()));
+            } catch (Exception e) {
+                throw new RuntimeException("储存产品图片失败", e);
+            }
+        }
+
+        productDao.editProduct(product);
 
         return "redirect:/admin/productInventory";
     }
